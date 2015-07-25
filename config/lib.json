@@ -1,0 +1,6 @@
+[
+    "/js/lib/jquery.js",
+		"/js/lib/jquery.tmpl.min.js",
+		"/js/lib/jquery.transform2d.js",
+		"/js/lib/jquery.easing.min.js"
+]

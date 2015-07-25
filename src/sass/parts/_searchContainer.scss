@@ -1,0 +1,51 @@
+.searchContainer{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+	width: 320px;
+	margin: -280px 0 0 -510px;
+  color: $gray;
+  z-index: $zSearch;
+  .searchForm{
+    text-align: center;
+  }
+  input{
+		width: 340px;
+		text-align: center;
+		border: none;
+		box-sizing: border-box;
+    @include single-transition(border, 0.2s, ease, 0s);
+		&:focus{
+			outline:none;
+			border: 2px solid $gray;
+		}
+		::-moz-focus-inner{
+			border:0;
+		}
+  }
+	.year{
+    height: 120px;
+		font-size: 96px;
+    padding-left: 20px;
+    background: transparent;
+	}
+	.text{
+		height: 80px;
+		font-size: 50px;
+    background: transparent;
+	}
+  .button{
+    width: 200px;
+    height: 50px;
+    margin-top: 5px;
+    background: transparent;
+    font-size: 36px;
+    border: 1px solid #000;
+    cursor: pointer;
+    @include single-transition(all, 0.2s, ease, 0s);
+    &:hover{
+      background: #000;
+      color: #fff;
+    }
+  }
+}

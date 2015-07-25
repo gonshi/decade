@@ -1,0 +1,43 @@
+extends /layout/_application
+block title
+  title DECADE 
+block body
+  div#scrollArea
+  div#wrapper
+    div.searchContainer
+      form.searchForm
+        input.text.gothic(type="text" value="John Lennon")
+        input.year(type="number" value="1970")
+        input.button(type="submit" value=" > LOOK")
+    div.timeline
+      div.centerLine
+      div.photoLayers
+  div#modalBack
+  section.tutorial
+    h1.title DECADE
+    p.sentence.
+      人物、雑誌、建物、家電製品。<br/>世の中のあらゆるものにはそれぞれの歴史があります。<br/>DECADEは、好きなものを年代とともに振り返ることのできる新しい画像検索サイトです。
+    p.caution.gothic
+      ※ 本サイトはPC用に最適化されているため、PCからの利用をお勧めします。
+    p.arrow.gothic 
+      button scroll
+  div#modalContainer
+    p.photo
+      a(href="/" target="_blank")
+        img(src="//static.tumblr.com/owbcywg/9Lenaqwk8/close.png" alt="拡大画像") 
+    p.title.gothic
+    p.close
+      img.closeImg(src="//static.tumblr.com/owbcywg/9Lenaqwk8/close.png" alt="閉じる") 
+  div#loadingContainer
+    p.loading
+      img(src="//static.tumblr.com/owbcywg/znHnaqwkt/loading.gif" alt="loading...")
+  footer#footer
+    p.facebook
+      a(href="http://www.facebook.com/share.php?u=http://decade.tokyo" onclick="window.open(this.href, 'FBwindow', 'width=650, height=450, menubar=no, toolbar=no, scrollbars=yes'); return false;")
+        img(src="//static.tumblr.com/owbcywg/DNhnaqwki/facebook.png" alt="facebook")
+    p.twitter
+      a(href="http://twitter.com/share?&original_referer=http://decade.tokyo&text=%e4%ba%ba%e7%89%a9%e3%80%81%e9%9b%91%e8%aa%8c%e3%80%81%e5%bb%ba%e7%89%a9%e3%80%81%e5%ae%b6%e9%9b%bb%e8%a3%bd%e5%93%81%e3%80%82%e4%b8%96%e3%81%ae%e4%b8%ad%e3%81%ae%e3%81%82%e3%82%89%e3%82%86%e3%82%8b%e3%82%82%e3%81%ae%e3%81%ab%e3%81%af%e3%81%9d%e3%82%8c%e3%81%9e%e3%82%8c%e3%81%ae%e6%ad%b4%e5%8f%b2%e3%81%8c%e3%81%82%e3%82%8a%e3%81%be%e3%81%99%e3%80%82DECADE%e3%81%af%e3%80%81%e5%a5%bd%e3%81%8d%e3%81%aa%e3%82%82%e3%81%ae%e3%82%92%e5%b9%b4%e4%bb%a3%e3%81%a8%e3%81%a8%e3%82%82%e3%81%ab%e6%8c%af%e3%82%8a%e8%bf%94%e3%82%8b%e3%81%93%e3%81%a8%e3%81%ae%e3%81%a7%e3%81%8d%e3%82%8b%e6%96%b0%e3%81%97%e3%81%84%e7%94%bb%e5%83%8f%e6%a4%9c%e7%b4%a2%e3%82%b5%e3%82%a4%e3%83%88%e3%81%a7%e3%81%99%e3%80%82&url=http://decade.tokyo" onclick="window.open(this.href, 'tweetwindow', 'width=550, height=450,personalbar=0,toolbar=0,scrollbars=1,resizable=1'); return false;")
+        img(src="//static.tumblr.com/owbcywg/yQhnaqwlc/twitter.png" alt="twitter")
+    p.copyright.gothic
+      a(href="//gonshi.net" target="_blank")
+        &copy; 田島 真悟 (面白法人カヤック) 

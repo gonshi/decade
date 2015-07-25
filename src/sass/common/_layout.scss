@@ -1,0 +1,58 @@
+#scrollArea{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#wrapper{
+	position: fixed;
+  top: 0;
+  left: 50%;
+  width: 1020px;
+  height: 100%;
+  margin-left: -510px;
+  z-index: $zFlat;
+}
+
+#footer{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  text-align: right;
+  background: #000;
+  z-index: $zFloat - 1;
+  color: #fff;
+  .facebook, .twitter{
+    float: left;
+    margin-left: 40px;
+    line-height: 30px;
+  }
+  .facebook img{
+    width: 10px;
+    height: auto;
+  }
+  .twitter img{
+    width: 13px;
+    height: auto;
+  }
+  .copyright{
+    margin-right: 40px;
+    line-height: 30px;
+    font-size: 12px;
+    a{
+      color: #fff;
+    }
+  }
+}
+
+.gothic{
+  font-family: "游ゴシック体", "Yu Gothic", YuGothic, 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+}
+
+#tumblr_controls{
+  display: none;
+}

@@ -1,0 +1,9 @@
+[
+    "/js/util/EventDispatcher.js",
+    "/js/util/Throttle.js",
+    "/js/model/SearchImg.js",
+    "/js/controller/SubmitHandler.js",
+    "/js/controller/ScrollHandler.js",
+    "/js/controller/clickHandler.js",
+    "/js/main.js"
+]

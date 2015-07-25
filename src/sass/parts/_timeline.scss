@@ -1,0 +1,90 @@
+.timeline{
+  position: absolute;
+  top: 0;
+  left: 340px;
+  width: 680px;
+  @include transform(translateX(340px) rotateX(58deg) rotateY(0deg) rotateZ(31deg));
+  @include transform-origin(0, 0, 0);
+
+	.centerLine{
+		position: absolute;
+		top: 20px;
+		left: 50%;
+		margin-left: -1px;
+		width: 2px;
+		height: 100%;
+		background-color: $gray;
+		border-radius: 20px;
+		opacity: 0;
+		&.show{
+			@include single-transition(all, 0.5s, ease-in, 0s);
+			opacity: 1;
+		}
+	}
+
+	.photoLayers{
+		width: 680px;
+		margin-top: 80px;
+	}
+
+  .year{
+		&:after{ //clearfix
+			content: "";
+			display: block;
+			clear: both;
+    }
+  }
+
+	.layer{
+		float: left;
+		width: 680px;
+    margin-top: 60px;
+    @include translateY(20px);
+		opacity: 0;
+		@include single-transition(all, 0.25s, ease-in, 0s);
+		&.leftColumn{
+			.photoContainer:before{
+				left: 333px;
+			}
+		}
+		&.rightColumn{
+			.photoContainer{
+				float: right;
+				&:before{
+					left: -27px;
+				}
+			}
+		}
+		&.show{
+			opacity: 1;
+      @include translateY(0);
+		}
+	}
+
+	.photoContainer{
+		position: relative;
+		&:before{
+			position: absolute;
+			top: 0;
+			width: 15px;
+			height: 15px;
+			border-radius: 50px;
+			background-color: $background;
+			box-shadow: 0 0 0 3px $gray, 0 0 0 10px $background;
+			content: "";
+		}
+	}
+
+	.title{
+		width: 300px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	.photo img{
+		width: 320px;
+		height: auto;
+		cursor: pointer;
+	}
+}
