@@ -17,6 +17,10 @@
         agent,
         searchCount = 0;
 
+        /* jshint ignore:start */
+        if(location.href.match('localhost')) DECADE = 1;
+        /* jshint ignore:end */
+
     // ua
     agent = navigator.userAgent.toLowerCase();
     if( agent.match('iphone') || agent.match('ipod') || agent.match('ipad') || agent.match('android')){
@@ -33,7 +37,7 @@
 		searchForm.search();
 		searchForm.addEventListener('SEARCH', function(_term, _year){
       // init
-      $('.photoLayers').empty(); 
+      $('.photoLayers').empty();
       $('.centerLine').removeClass('show');
 			scroll.reset();
       searchCount = 0;
@@ -62,7 +66,7 @@
       }
     });
     ////////////////////////////////
-    
+
     // when loading process failed
     global.response.prototype.addEventListener('RETRY', function(){
       searchImg.exec();

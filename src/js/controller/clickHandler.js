@@ -1,6 +1,6 @@
 (function(global, doc, $, ns, undefined) {
 	'use strict';
-	ns = ns || {};	
+	ns = ns || {};
 
 	ns.modal = function(){
 		var $modalBack = $('#modalBack'),
@@ -33,8 +33,8 @@
 		});
 
 		function complete(){
-			imgWidth = $modalImg.width();
-			imgHeight = $modalImg.height();
+			imgWidth = Math.min($modalImg.width() * 3, 600);
+			imgHeight = Math.min($modalImg.height() * 3, 400);
 
 			// centering
 			$modalPhoto.
@@ -58,7 +58,7 @@
 					marginLeft: -0.5 * imgWidth
 				});
 			/////////////////////
-			
+
 			// fade in of Modal
 			$modalBack.
 				css({display: 'block'}).
@@ -77,7 +77,7 @@
 						$('#modalContainer').css({display: 'none'});
 					});
 				//////////////////
-      } 
+      }
     });
 	};
 

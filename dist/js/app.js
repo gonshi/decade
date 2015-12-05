@@ -83,7 +83,7 @@
       callback();
     }
     else{
-      this.timer = setTimeout(callback, this.interval - delta);
+      this.timer = setTimeout(callback, this.interval);
     }
   };
 
@@ -93,13 +93,15 @@
 
 (function(global, doc, $, ns, undefined) {
 	'use strict';
-	ns = ns || {};	
+	ns = ns || {};
 
   var originalConstructor,
       instance;
 
 	function SearchImg(){
-		this.url='http://ajax.googleapis.com/ajax/services/search/images?v=1.0&callback=response';
+		//this.url='http://ajax.googleapis.com/ajax/services/search/images?v=1.0&callback=response';
+		this.url= 'https://www.googleapis.com/customsearch/v1?key=AIzaSyD0-vENpzFF5YJLKBbeebqaAX7fXM-qBM0&' +
+                  'cx=016489218282066124601:rfqomcxwe0w';
  	}
 
   originalConstructor = SearchImg.prototype.constructor;
@@ -107,11 +109,17 @@
   SearchImg.prototype.constructor = originalConstructor;
 
 	SearchImg.prototype.exec = function(term, year){
-    this.term = term || this.term;
-    this.year = year || this.year;
-		var src = this.url + '&q=' + this.term + '%20' + this.year + '年' + '&start=0&rsz=8';
-    $('<div>').addClass('year').data({year: this.year}).appendTo('.photoLayers'); // add new Container
-		$('head').append($(document.createElement('script')).attr('src', src));
+      this.term = term || this.term;
+      this.year = year || this.year;
+      var src = this.url + '&q=' + encodeURIComponent(this.term) + '%20' +
+                this.year + '年' + '&searchType=image&num=8';
+      $.ajax({
+        type: 'get',
+        url: src,
+      }).done(function(data){
+          window.response(data);
+      });
+      $('<div>').addClass('year').data({year: this.year}).appendTo('.photoLayers'); // add new Container
 	};
 
   SearchImg.getInstance = function() {
@@ -142,32 +150,32 @@ var originalConstructor,
 
 function response(data) {
   // when google response has failed, retry the process
-	if( data.responseData == undefined ){
-    decade.loading('on'); 
+	if(data.items.length === 0){
+    decade.loading('on');
 		setTimeout(function(){
 			$('.photoLayers').find('.year:last-child').remove();
-			response.prototype.fireEvent('RETRY'); 
+			response.prototype.fireEvent('RETRY');
 		}, 500);
   }
   else{
-    decade.loading('off'); 
+    decade.loading('off');
   }
   /////////////////////////////
   var that = this,
-      results = data.responseData.results,
+      results = data.items,
 			target = $('.photoLayers').find('.year').last(), // the newly added container
 			imgCount = 0,
       maxCount = 8,
 			_loadedImg = [],
 			FIRST = !$('.centerLine').hasClass('show'),
       START_POS = $('.layer').last().hasClass('rightColumn') ? 0 : 1; // 直前のレイヤーが右寄せなら、開始positionは左寄せから
-	
+
 	for(var i = 0; i < results.length; i++){
 		_loadedImg[i] = new Image();
     _loadedImg[i].finished = false;
-		_loadedImg[i].onload = append(i); 
+		_loadedImg[i].onload = append(i);
     _loadedImg[i].onerror =  error(i);
-		_loadedImg[i].src = results[i].url;
+		_loadedImg[i].src = results[i].image.thumbnailLink;
 
     (function(_i){
       setTimeout(function(){
@@ -181,7 +189,7 @@ function response(data) {
       return function(){
         maxCount--;
         if( imgCount === maxCount ){
-          response.prototype.fireEvent('FINISH', that, target.data('year')); 
+          response.prototype.fireEvent('FINISH', that, target.data('year'));
         }
         _loadedImg[i].finished = true;
       }
@@ -198,12 +206,13 @@ function response(data) {
 					FIRST = false;
 				}
 
+        console.log(results[i]);
         if( !_loadedImg[i].finished ){
           _loadedImg[i].finished = true;
           layer = $.tmpl(photo,{
-            'src': results[i].url,
-            'title': results[i].titleNoFormatting,
-            'url': results[i].originalContextUrl
+            'src': results[i].image.thumbnailLink,
+            'title': results[i].title,
+            'url': results[i].link
           }).
           appendTo(target).
           addClass(position);
@@ -211,7 +220,7 @@ function response(data) {
           setTimeout(function(){
             layer.addClass('show');
             if( imgCount === maxCount ){
-              response.prototype.fireEvent('FINISH', that, target.data('year') ); 
+              response.prototype.fireEvent('FINISH', that, target.data('year') );
             }
           }, 100);
         }
@@ -316,12 +325,13 @@ response.prototype.constructor = originalConstructor;
   };
 
   ns.ScrollHandler = ScrollHandler;
+  console.log(ScrollHandler.prototype);
 	global.decade = ns;
 })(this, document, jQuery, this.decade);
 
 (function(global, doc, $, ns, undefined) {
 	'use strict';
-	ns = ns || {};	
+	ns = ns || {};
 
 	ns.modal = function(){
 		var $modalBack = $('#modalBack'),
@@ -354,8 +364,8 @@ response.prototype.constructor = originalConstructor;
 		});
 
 		function complete(){
-			imgWidth = $modalImg.width();
-			imgHeight = $modalImg.height();
+			imgWidth = Math.min($modalImg.width() * 3, 600);
+			imgHeight = Math.min($modalImg.height() * 3, 400);
 
 			// centering
 			$modalPhoto.
@@ -379,7 +389,7 @@ response.prototype.constructor = originalConstructor;
 					marginLeft: -0.5 * imgWidth
 				});
 			/////////////////////
-			
+
 			// fade in of Modal
 			$modalBack.
 				css({display: 'block'}).
@@ -398,7 +408,7 @@ response.prototype.constructor = originalConstructor;
 						$('#modalContainer').css({display: 'none'});
 					});
 				//////////////////
-      } 
+      }
     });
 	};
 
@@ -476,6 +486,10 @@ response.prototype.constructor = originalConstructor;
         agent,
         searchCount = 0;
 
+        /* jshint ignore:start */
+        if(location.href.match('localhost')) DECADE = 1;
+        /* jshint ignore:end */
+
     // ua
     agent = navigator.userAgent.toLowerCase();
     if( agent.match('iphone') || agent.match('ipod') || agent.match('ipad') || agent.match('android')){
@@ -492,7 +506,7 @@ response.prototype.constructor = originalConstructor;
 		searchForm.search();
 		searchForm.addEventListener('SEARCH', function(_term, _year){
       // init
-      $('.photoLayers').empty(); 
+      $('.photoLayers').empty();
       $('.centerLine').removeClass('show');
 			scroll.reset();
       searchCount = 0;
@@ -521,7 +535,7 @@ response.prototype.constructor = originalConstructor;
       }
     });
     ////////////////////////////////
-    
+
     // when loading process failed
     global.response.prototype.addEventListener('RETRY', function(){
       searchImg.exec();
